@@ -24,9 +24,19 @@ StoryProc.groupingByKey = (calcValue, current) => {
   return calcValue;
 };
 
-// TODO 後でちゃんと作る
-StoryProc.optimizePoint = (v) => {
-  return Math.round(v);
+StoryProc.optimizePoint = (point) => {
+  condition = (v1, v2) => point < (v2 - v1) / 3 + v1;
+  if (condition(1, 2)) return 1;
+  else if (condition(2, 3)) return 2;
+  else if (condition(3, 5)) return 3;
+  else if (condition(5, 8)) return 5;
+  else if (condition(8, 13)) return 8;
+  else if (condition(13, 21)) return 13;
+  else if (condition(21, 34)) return 21;
+  else if (condition(34, 50)) return 34;
+  else if (condition(50, 100)) return 50;
+  else if (condition(100, 250)) return 100;
+  else return 250;
 };
 
 StoryProc.outputResultCell = (resuletSheet, row, count, story) => {

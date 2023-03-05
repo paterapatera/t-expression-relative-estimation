@@ -30,7 +30,7 @@ function importPBI() {
 }
 
 function calculateStoryPoint() {
-  const resuletSheet =
+  const resultSheet =
     SpreadsheetApp.getActiveSpreadsheet().getSheetByName("推定結果");
   const sheets = SpreadsheetApp.getActiveSpreadsheet().getSheets();
   const config = new Config();
@@ -90,8 +90,8 @@ function calculateStoryPoint() {
   });
 
   [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].forEach((i) =>
-    resuletSheet
-      .getRange(i, 2, i, resuletSheet.getLastColumn())
+    resultSheet
+      .getRange(i, 2, i, resultSheet.getLastColumn())
       .deleteCells(SpreadsheetApp.Dimension.COLUMNS)
   );
 
@@ -111,6 +111,6 @@ function calculateStoryPoint() {
   };
   result.forEach((v) => {
     var [row, column] = StoryProc.calcRange(v, counts);
-    StoryProc.outputResultCell(resuletSheet, row, column, v);
+    StoryProc.outputResultCell(resultSheet, row, column, v);
   });
 }
