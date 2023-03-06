@@ -130,7 +130,7 @@ function updateJIRAStoryPoint() {
     .getRange(2, 2, 12, resultSheet.getLastColumn())
     .getValues();
 
-  [
+  const pbis = [
     toPointAndValues(values[0], 1),
     toPointAndValues(values[1], 2),
     toPointAndValues(values[2], 3),
@@ -142,7 +142,14 @@ function updateJIRAStoryPoint() {
     toPointAndValues(values[8], 50),
     toPointAndValues(values[9], 100),
     toPointAndValues(values[10], 250),
-  ]
-    .flat()
-    .forEach(([key, point]) => jira.updatePBIStoryPoint(key, point));
+  ].flat();
+  const total = pbis.length;
+  const progressCell = resultSheet.getRange("C1");
+  pbis.forEach(([key, point], i) => {
+    const count = i + 1;
+    progressCell.setValue(count + "/" + total);
+    SpreadsheetApp.flush();
+    jira.updatePBIStoryPoint(key, point);
+  });
+  progressCell.deleteCells(SpreadsheetApp.Dimension.COLUMNS);
 }
