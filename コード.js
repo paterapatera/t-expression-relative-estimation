@@ -151,5 +151,5 @@ function updateJIRAStoryPoint() {
     SpreadsheetApp.flush();
     jira.updatePBIStoryPoint(key, point);
   });
-  progressCell.deleteCells(SpreadsheetApp.Dimension.COLUMNS);
+  progressCell.setValue("-");
 }
