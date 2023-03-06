@@ -11,8 +11,9 @@ class JIRA {
         this.jiraConfig.project() +
         ' AND issuetype in (Story, Task) AND status = "To Do" AND created >= ' +
         this.jiraConfig.startDate() +
-        " AND created <= " +
-        this.jiraConfig.endDate()
+        ' AND created <= "' +
+        this.jiraConfig.endDate() +
+        ' 23:59"'
     );
     const response = UrlFetchApp.fetch(
       "https://" +
