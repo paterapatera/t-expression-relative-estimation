@@ -4,8 +4,7 @@ function importPBI() {
   const templateSheet =
     SpreadsheetApp.getActiveSpreadsheet().getSheetByName("テンプレート");
   const sheets = SpreadsheetApp.getActiveSpreadsheet().getSheets();
-  const jiraConfig = new JIRAConfig(jiraConfigSheet);
-  const jira = new JIRA(jiraConfig);
+  const jira = new JIRA(new JIRAConfig(jiraConfigSheet));
   const config = new Config();
 
   const response = jira
@@ -90,11 +89,9 @@ function calculateStoryPoint() {
     };
   });
 
-  [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].forEach((i) =>
-    resultSheet
-      .getRange(i, 2, i, resultSheet.getLastColumn())
-      .deleteCells(SpreadsheetApp.Dimension.COLUMNS)
-  );
+  resultSheet
+    .getRange(2, 2, 12, resultSheet.getLastColumn())
+    .deleteCells(SpreadsheetApp.Dimension.COLUMNS);
 
   const initCount = 2;
   const counts = {
@@ -114,4 +111,38 @@ function calculateStoryPoint() {
     var [row, column] = StoryProc.calcRange(v, counts);
     StoryProc.outputResultCell(resultSheet, row, column, v);
   });
+}
+
+function updateJIRAStoryPoint() {
+  const jiraConfigSheet =
+    SpreadsheetApp.getActiveSpreadsheet().getSheetByName("設定値");
+  const resultSheet =
+    SpreadsheetApp.getActiveSpreadsheet().getSheetByName("推定結果");
+  const jira = new JIRA(new JIRAConfig(jiraConfigSheet));
+
+  const toPointAndValues = (value, point) =>
+    value
+      .filter((x) => x !== "")
+      .map((x) => [x.split("\n")[0], point])
+      .filter((x) => x);
+
+  const values = resultSheet
+    .getRange(2, 2, 12, resultSheet.getLastColumn())
+    .getValues();
+
+  [
+    toPointAndValues(values[0], 1),
+    toPointAndValues(values[1], 2),
+    toPointAndValues(values[2], 3),
+    toPointAndValues(values[3], 5),
+    toPointAndValues(values[4], 8),
+    toPointAndValues(values[5], 13),
+    toPointAndValues(values[6], 21),
+    toPointAndValues(values[7], 34),
+    toPointAndValues(values[8], 50),
+    toPointAndValues(values[9], 100),
+    toPointAndValues(values[10], 250),
+  ]
+    .flat()
+    .forEach(([key, point]) => jira.updatePBIStoryPoint(key, point));
 }
