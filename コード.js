@@ -16,6 +16,7 @@ function importPBI() {
       return !config.excludeSheets.includes(sheetName);
     })
     .forEach((sheet) => {
+      sheet.insertRowsAfter(12, 12);
       sheet.deleteRows(1, 12);
       sheet.setFrozenRows(1);
       templateSheet.getRange("A1:B12").copyTo(sheet.getRange("A1:B12"));
