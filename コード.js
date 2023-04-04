@@ -74,7 +74,7 @@ function calculateStoryPoint() {
         data.point6.map(StoryProc.toStorysWithPoint(data, 34)),
         data.point10.map(StoryProc.toStorysWithPoint(data, 50)),
         data.point20.map(StoryProc.toStorysWithPoint(data, 100)),
-        data.pointQ.map(StoryProc.toStorysWithPoint(data, 250))
+        data.pointQ.map(StoryProc.toStorysWithPoint(data, 999))
       )
     )
     .reduce(StoryProc.groupingByKey, {});
@@ -142,7 +142,7 @@ function updateJIRAStoryPoint() {
     toPointAndValues(values[7], 34),
     toPointAndValues(values[8], 50),
     toPointAndValues(values[9], 100),
-    toPointAndValues(values[10], 250),
+    toPointAndValues(values[10], 999),
   ].flat();
   const total = pbis.length;
   const progressCell = resultSheet.getRange("C1");
